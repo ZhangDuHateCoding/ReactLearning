@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HelloWorld</title>
+</head>
+<script src="https://cdn.bootcss.com/react/16.4.0/umd/react.development.js"></script>
+<script src="https://cdn.bootcss.com/react-dom/16.4.0/umd/react-dom.development.js"></script>
+<script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+<body>
+    
+    <div id="test">
+        <script type="text/babel">/* 告诉babel.js接续JSX代码 */
+            //1.创建虚拟DOM元素对象
+            var vDom = <h1>Hello React</h1>  //不是字符串（JSX句法）
+            //2.将虚拟DOM渲染到真实页面的DOM容器中
+            ReactDOM.render(vDom, document.getElementById('test')); //ReactDOM是react-dom.development.js提供的方法，把虚拟DOM渲染到实际页面
+            //或以下写法
+            // ReactDOM.render(
+            //     <h1>Hello, world!</h1>,
+            //     document.getElementById('test')
+            // );
+
+
+            /*
+                React三大库：
+
+                react.js: React的核心库
+                react-dom.js: 提供操作DOM的react扩展库
+                babel.min.js: 解析JSX语法代码并将其转化为纯JS语法代码的库
+
+            */
+        </script>
+    </div>
+</body>
+</html>

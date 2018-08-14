@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JSX Demo</title>
+</head>
+<script src="https://cdn.bootcss.com/react/16.4.0/umd/react.development.js"></script>
+<script src="https://cdn.bootcss.com/react-dom/16.4.0/umd/react-dom.development.js"></script>
+<script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+<body>
+    <h2>前端JS框架列表</h2>
+    <div id="example">
+
+    </div>
+    <script type="text/babel">
+        /*
+        功能：动态显示列表数据
+        */ 
+
+        /*
+        问题：如何将一个数据的数组，转化为一个标签的数组 - 但凡遇到将数组显示成列表，使用map()方法
+        */
+        const names = ['jQuery', 'Angular', 'zeptoo', 'react', 'Vue'];
+        /*
+        1.创建虚拟DOM
+        <ul>
+            <li>{name}</li>
+        </ul>
+        */
+        const ul = (//数组有一个map方法，用箭头函数实现功能
+        /*
+        map() 方法返回一个新数组，数组中的元素为原始数组元素调用函数处理后的值。
+
+        map() 方法按照原始数组元素顺序依次处理元素。
+
+        注意： map() 不会对空数组进行检测。
+
+        注意： map() 不会改变原始数组。
+        */
+            <ul>
+            {
+              names.map((name, index) => <li key={index}>{name}</li>) /* 每个数据都应该有一个唯一标识，不然会报警告 */
+            }                
+            </ul>
+        )//习惯：有嵌套的标签，用小括号括起来
+        
+        //2.渲染虚拟DOM
+        ReactDOM.render(ul, document.getElementById("example"))
+    </script>
+    <!--  -->
+</body>
+</html>

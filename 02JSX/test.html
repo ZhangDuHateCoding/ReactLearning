@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>JSX</title>
+</head>
+<script src="https://cdn.bootcss.com/react/16.4.0/umd/react.development.js"></script>
+<script src="https://cdn.bootcss.com/react-dom/16.4.0/umd/react-dom.development.js"></script>
+<script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+<!-- 面向组件编程 -->
+<body>
+    <div id="test1"></div>
+    <div id="test2"></div>
+
+    <script type="text/javascript">/* 不用JSX语法时，无需声名babel (一般不用)*/
+
+        const msg1 = 'I Like You!';
+        const msg2 = 'Radwimps';
+
+    /*
+        1). React提供了一些API来创建一种‘特别’的一般hs对象
+            var element = React.createElement('h1', {id: 'myTitle', 'hello'})
+            👆以上是一个简单的虚拟DOM对象(三个参数，arg1：标签名，arg2：标签属性(键值对)，arg3：标签具有的内容)
+        2). 虚拟DOM对象最终会被React转化为真实DOM
+        3). 编码时只需要操作react的虚拟DOM相关数据，react会转化为真实DOM且更新视图界面
+    */
+
+    //步骤1. 创建虚拟DOM（使用非JSX语法）
+        const vDom1 = React.createElement('h2', {id:msg2.toLowerCase()}, msg1.toUpperCase());
+        console.log(vDom1);
+        const testDom = document.getElementById('test1');
+        console.log(testDom);//虚拟DOM和真实DOm的区别
+        /*
+        真实DOM：重，内容多，更新真实DOM会重绘页面
+        虚拟DOM：轻，内容少，更新虚拟DOM不会重绘页面
+        */
+        //debugger
+    //步骤2. 渲染虚拟DOM
+        //ReactDOM.render(virtualDOM, containerDOM)
+        ReactDOM.render(vDom1, document.getElementById('test1'));
+    </script>
+
+    <script type="text/babel">/* 使用JSX语法 */
+    //步骤1. 创建虚拟DOM（
+        const vDom2 = <h3 id={msg2.toUpperCase()}>{msg1.toLowerCase()}</h3> /* {}，花括号内指定动态值,不写大括号将以文本显示内容 */ 
+        
+    //步骤2. 渲染虚拟DOM(虚拟-真实，是一个对应关系)
+        //ReactDOM.render(virtualDOM, containerDOM)
+        ReactDOM.render(vDom2, document.getElementById('test2'));
+    </script>
+    <!-- 
+        JSX：JavaScript XML
+        react定义了一种类似XML的JS扩展语法，创建DOM时标签名和属性名任意
+
+        基本语法规则：
+            -遇到<开头的代码，以标签的语法解析：html同名标签转换为html同名元素，其他标签需要特别解析
+            -遇到{开头的代码。以JS语法解析：标签中的JS代码必须用{}包含
+
+
+     -->
+</body>
+</html>
