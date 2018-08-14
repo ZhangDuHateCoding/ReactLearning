@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Component-State属性</title>
+</head>
+<script src="https://cdn.bootcss.com/react/16.4.0/umd/react.development.js"></script>
+<script src="https://cdn.bootcss.com/react-dom/16.4.0/umd/react-dom.development.js"></script>
+<script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+<body>
+    <div id="example"></div>
+    <script type="text/babel">
+    /*
+    需求：自定义组件
+    1. 显示h2标题，初始文本为aaaa
+    2. 点击更换标题为 bbbb
+    */ 
+    /*
+    state理解：
+        ·state是组件对象最重要的属性，值是对象（可以包含多个数据）
+        ·组件被称为“状态机”，通过更新组件的state来更新对应的页面显示（重新渲染组件）
+
+    编码操作：
+    1. 初始化状态
+        constructor(props){
+            super(props)
+                thisState ={   //给状态赋初值
+                    stateProp1: value1,
+                    stateProp2: value2
+                }
+        }
+
+    2. 读取某个状态值
+        this.state.statePropertyName
+
+    3. 更新状态--->组件界面更新
+        this.setState({     //给状态赋新值
+            stateProp1: value1,
+            stateProp2: value2
+        })
+    */
+
+    //1. 定义组件类(ES6类)
+    class Txt extends React.Component { //这里的Txt就是渲染组件标签时的自定义标签<Txt></Txt>
+        //1. 给状态赋初值
+        constructor(props){
+            super(props) //调用父类型的函数
+                //初始化状态
+                this.state ={
+                    isA: false
+                }
+
+            //将新增方法中的this强制绑定为组件对象
+            this.handleClick = this.handleClick.bind(this);
+        }
+        
+        //新添加的方法，内部的this默认不是组件对象，无法undefined，必须让this指向组件对象才能实现
+        handleClick(){ //此时运行的handleClick不是最初定义的handleClick，而是通过bind()方法强制绑定this（组件对象）后产生的新函数
+            //3.更新状态：绑定监听，修改状态
+            //想修改状态，先要得到原来的状态并取反
+            console.log('handleClick()', this)
+            const isA = !this.state.isA
+            this.setState({isA})
+        }
+        
+        //render()是重写组件类的方法，
+        render(){
+            //2.读取状态
+            const {isA} = this.state //解构赋值
+            //3.更新状态：绑定监听，修改状态
+            return <h2 onClick={this.handleClick}>{isA?'AAAAAAA(点击)':'BBBBBBB(点击)'}</h2> //this是组件对象，调用组件对象的handleClick方法
+        }
+    }
+
+    //2. 渲染组件标签
+    ReactDOM.render(<Txt/>, document.getElementById('example'));
+
+    </script>
+</body>
+<!-- 
+    总结：
+    状态的三个操作步骤：初始化状态，读取状态，更新状态
+    将新增的方法通过bind()方法强制绑定为组件对象
+    写的位置永远一样，非常模式化：强制绑定在初始化状态时写；读状态在render()中写；在事件回调函数中更新状态（先读到当前状态，再更新）
+ -->
+</html>
