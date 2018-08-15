@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>component_conposing组件组合</title>
+</head>
+<script src="https://cdn.bootcss.com/react/16.4.0/umd/react.development.js"></script>
+<script src="https://cdn.bootcss.com/react-dom/16.4.0/umd/react-dom.development.js"></script>
+<script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+<script src="https://cdn.bootcss.com/prop-types/15.6.1/prop-types.js"></script><!--检查props属性-->
+<body>
+    <div id="example"></div>
+    <script type="text/babel">
+    /*
+    需求：组件化实现todo list功能
+    1. 显示所有todo list
+    2. 输入文本，点击按钮显示到列表的首位，并清除输入的文本
+    */ 
+    /*
+    功能界面的组件化编码流程（无比重要）---复杂界面固定流程
+    1. 拆分组件：拆分界面，抽取组件
+    2. 实现静态组件：使用组件实现静态页面效果(只有静态界面，没有动态数据和交互)
+    3. 实现动态组件：
+        (1).动态显示初始化数据
+        (2).实现交互功能（从绑定事件监听开始）
+    */
+
+    /*
+    1.定义组件（一般根组件设定为App，Add和List是App的子组件，渲染时只要渲染App即可)
+    */
+    //重要问题1：数据存放在哪个组件内？---看数据是某个组件需要（给单独组件），还是某些组件需要（给共同父组件）
+    //把数据给App组件（Add和List都是App的子组件）
+    //重要问题2：在子组件中改变父组件的状态
+    //---子组件中不能直接改变父组件的状态
+    //---状态在哪个组件，更新状态的行为就应该定义在哪个组件（行为即函数/方法）
+    //解决：父组件定义函数，传递给子组件，子组件调用函数
+    class App extends React.Component{
+        constructor(props){
+            super(props)
+            //初始化状态
+            this.state={
+                todos:['吃饭','睡觉','码代码','打游戏']
+            }
+
+            this.addTodo = this.addTodo.bind(this);
+        }
+        //父组件中定义函数：addTodo
+        addTodo(todo){
+            //错误写法：this.state.todos.unshift(todo)  因为更新状态必须调用setState方法
+            const {todos} = this.state //解构赋值，简化代码
+            todos.unshift(todo)
+            //更新状态
+            this.setState({todos})
+        }
+
+        render(){ //根标签只能有一个
+            const {todos} = this.state //解构赋值，简化代码
+            return (//注意在<Add />标签中传递函数（addTodo）
+                <div>
+                    <h1>Simple Todo List</h1>
+                    <Add count={todos.length} addTodo={this.addTodo}/>
+                    <List todos={todos} /> 
+                </div>
+            )
+        }
+    }
+
+    class Add extends React.Component{
+        constructor(props){
+            super(props)
+            this.addItem = this.addItem.bind(this)
+        }
+        addItem(){
+            //1. 读取输入的数据(输入框中用ref取得数据)
+            const todoItemContent = this.todoInput.value.trim() //trim()消除左右两端空格
+            //2. 校验输入合法性
+            if(todoItemContent==''){
+                return
+            }else{ //3. 合法-添加
+                this.props.addTodo(todoItemContent)
+            }
+           //4. 清除输入内容
+           this.todoInput.value = ''
+        }
+        render(){
+            return (
+                <div>
+                    <input type="text" ref={input => this.todoInput=input} />
+                    <button onClick={this.addItem}>Add #{this.props.count+1}</button>
+                </div>
+            )
+        }
+    }
+
+    class List extends React.Component{
+        render(){
+            return (
+                <ul>
+                    {
+                        this.props.todos.map((item, index) => <li key={index}>{item}</li>)
+                    }
+                </ul>
+            )
+        }
+    }
+    Add.propTypes={
+        count:PropTypes.number.isRequired,
+        addTodo:PropTypes.func.isRequired
+    }
+    List.propTypes ={
+        todos:PropTypes.array.isRequired
+    }
+    //2.渲染组件标签
+    ReactDOM.render(<App />, document.getElementById('example'))
+    </script>
+</body>
+</html>

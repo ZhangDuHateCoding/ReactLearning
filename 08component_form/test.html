@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Component_form</title>
+</head>
+<script src="https://cdn.bootcss.com/react/16.4.0/umd/react.development.js"></script>
+<script src="https://cdn.bootcss.com/react-dom/16.4.0/umd/react-dom.development.js"></script>
+<script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+<script src="https://cdn.bootcss.com/prop-types/15.6.1/prop-types.js"></script><!--检查props属性-->
+<body>
+    <div id="example"></div>
+    <script type="text/babel">
+        /*
+        需求：
+        1.自定义包含表单的组件
+        2.输入用户名和密码后，点击登陆提示信息
+        3.不提交表单
+        */ 
+
+        class LoginForm extends React.Component{
+            constructor(props){
+                super(props)
+                //用密码测试自动收集表单数据
+                //初始化状态：
+                this.state={
+                    pwd:''
+                }
+                
+                this.handleSubmit = this.handleSubmit.bind(this)
+                this.handleChange = this.handleChange.bind(this)
+            }
+
+            handleChange(event){
+                //读取输入的值，且操作的是当前元素，直接用参数读取即可
+                const pwd = event.target.value
+                //更新pwd的状态
+                this.setState({pwd})
+            }
+
+            handleSubmit(event){
+                //读input框数据且不让表单提交
+                const name = this.inputU.value
+                const {pwd} = this.state //此时输入密码，state自动更新(react中onChange()特有的功能)
+                alert(`${name},${pwd}`)
+                //阻止事件默认行为
+                event.preventDefault();               
+            }
+
+            render(){
+
+                return(//新方法，受控组件自动收集表单数据
+                    <form action="/test" onSubmit={this.handleSubmit}>
+                    Username:<input type="text" ref={input => this.inputU=input} />
+                    Password:<input type="text" value={this.state.pwd} onChange={this.handleChange}/>
+                    <input type="submit" value="Login"/>
+                    </form>
+                )
+            }
+            /*
+                包含表单的组件分类：
+                受控组件：表单项输入能自动收集成状态
+                非受控组件：需要时才手读取表单输入框的数据
+            */
+        }
+
+        ReactDOM.render(<LoginForm />, document.getElementById("example"))
+    </script>
+</body>
+</html>

@@ -22,11 +22,11 @@
     <script type="text/babel">
     //组件化编程步骤
     //1. 定义组件（两种方式）
-    //方式1：工厂函数组件(简单组件) - 用到工厂函数（必须有一个return）
+    //方式1：工厂函数组件(简单组件:无状态) - 用到工厂函数（必须有一个return），组件中存在状态(state)，就不能用工厂模式
     function MyComponent() {
         return <h2>工厂函数组件(简单组件)</h2> //return返回的必须是一个虚拟DOM
     }
-    //方式2：ES6类组件（复杂组件）
+    //方式2：ES6类组件（复杂组件：有状态属性的组件）
     class MyComponent2 extends React.Component{ //React中有一个Component方法，继承之（定义一个组件的子类）
         //该类中有一个特别的方法render(){ return xxx }
         render(){
@@ -37,7 +37,7 @@
     }
     //2. 渲染组件标签
     ReactDOM.render(<MyComponent/>, document.getElementById("example1"));//自一个参数是被渲染的组件标签，第二个参数是该组件标签所处的容器
-    ReactDOM.render(<MyComponent2/>, document.getElementById("example2"));
+    ReactDOM.render(<MyComponent2/>, document.getElementById("example2"));//自一个参数是被渲染的组件标签，第二个参数是该组件标签所处的容器
     //进行渲染时才调用MyComponent(){}函数
     /*
     工厂函数组件(简单组件)和ES6类组件（复杂组件）区别：

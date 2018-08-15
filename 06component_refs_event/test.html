@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>component_refs_event</title>
+</head>
+<script src="https://cdn.bootcss.com/react/16.4.0/umd/react.development.js"></script>
+<script src="https://cdn.bootcss.com/react-dom/16.4.0/umd/react-dom.development.js"></script>
+<script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+<body>
+    <div id="example"></div>
+    <script type="text/babel">
+    /*
+    需求：自定义组件
+    1. 点击按钮，提示第一个输入框中的值
+    2. 当第二个输入框的值失焦时，提示这个输入框的值
+    */ 
+    //ref:用来标识组件内部的某一个元素
+    //1.定义组件（不能确定有无state时，就用类）
+    class MyComponent extends React.Component{
+        //绑定事件监听
+        constructor(props){
+            super(props)
+            this.showInput1 = this.showInput1.bind(this)
+            this.showInput2 = this.showInput2.bind(this)
+        }
+
+        showInput1(){
+            //React此处不能用原生DOM
+            //需要ref属性
+            const inputContent = this.refs.content
+            alert(inputContent.value)
+        }
+        showInput2(){
+            //React此处不能用原生DOM
+            //需要ref属性
+            //相当于使用回调函数
+            alert(this.input.value)
+        }
+        handleBlur(event){ //所有事件的回调函数，都有一个形参event
+            alert(event.target.value);
+        }
+
+        render(){
+            return ( //自定义组件标签时必须有结束标签  
+                <div>
+                    <input type="text" ref="content"/>&nbsp;
+                    <button onClick={this.showInput1}>提示输入1</button>&nbsp;
+                    <input type="text" ref={input => this.input = input}/>&nbsp; 
+                    <button onClick={this.showInput2}>提示输入2</button>&nbsp;
+                    <input type="text" onBlur={this.handleBlur}  placeholder="失去焦点提示输入内容" />
+                </div>
+            )
+        }
+    }
+
+    //2.渲染组件标签
+    ReactDOM.render(<MyComponent />, document.getElementById("example"));
+
+    </script>
+</body>
+</html>
