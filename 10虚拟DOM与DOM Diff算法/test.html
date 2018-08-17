@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>虚拟DOM与Dom Diff算法</title>
+</head>
+<script src="https://cdn.bootcss.com/react/16.4.0/umd/react.development.js"></script>
+<script src="https://cdn.bootcss.com/react-dom/16.4.0/umd/react-dom.development.js"></script>
+<script src="https://cdn.bootcss.com/babel-standalone/6.26.0/babel.min.js"></script>
+<script src="https://cdn.bootcss.com/prop-types/15.6.1/prop-types.js"></script>
+<body>
+    <div id="example"></div>
+    <script type="text/babel">
+        // 验证虚拟DOM与DOM Diff算法，实现最小化页面重绘
+        class HelloWorld extends React.Component{
+            constructor(props){
+                super(props)
+                this.state ={
+                    date : new Date()
+                }
+            }
+            
+
+            componentDidMount(){
+                setInterval(() => {
+                    this.setState({
+                        date: new Date()
+                    })
+                }, 1000);
+            }
+
+            render(){
+                console.log('render()')
+                return (
+                    <p>
+                        Hello,<input type="text" placeholder="Your name here" />&nbsp;
+                        <span>It is {this.state.date.toTimeString()}</span>
+                    </p>
+                )
+            }
+        }
+        
+        ReactDOM.render(<HelloWorld />, document.getElementById('example'))
+        
+    </script>
+</body>
+</html>

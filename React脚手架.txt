@@ -1,0 +1,23 @@
+1. 使用create-react-app创建react应用
+1.1 react脚手架
+
+1) XXX脚手架：用来帮助程序员快速创建一个基于XXX库的模板项目
+    包含了所有配置
+    指定好所有的依赖
+    可以直接编译运行一个简单效果
+2) react提供了一个用于创建react项目的脚手架库:create-react-app
+3) 项目整体技术架构为：react+webpack+ES6+ESlint
+4) 使用脚手架开发特点：模块化、组件化、工程化
+
+流程：
+npm install -g create-react-app
+create-react-app hello-react
+cd hello-react
+npm start
+
+
+------------------------------------------------------------------------------------------------------------------------------
+遇到问题：
+npm install -g create-react-app
+create-react-app hello-react 后显示指令不可用
+解决：将node.js的global安装包手动添加到系统环境变量的Path中
